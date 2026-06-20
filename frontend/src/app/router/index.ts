@@ -1,0 +1,228 @@
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+
+import AppLayout from '@/app/layouts/AppLayout.vue'
+import { loadCurrentUser, sessionState } from '@/entities/session'
+import ApiAutomationPage from '@/pages/automation-api/ApiAutomationPage.vue'
+import CaseAiConfigPage from '@/pages/cases/CaseAiConfigPage.vue'
+import CaseAiGeneratePage from '@/pages/cases/CaseAiGeneratePage.vue'
+import CaseAiRecordsPage from '@/pages/cases/CaseAiRecordsPage.vue'
+import CaseCenterPage from '@/pages/cases/CaseCenterPage.vue'
+import CasesPage from '@/pages/cases/CasesPage.vue'
+import ConfigCenterPage from '@/pages/config-center/ConfigCenterPage.vue'
+import DefectDetailPage from '@/pages/defects/DefectDetailPage.vue'
+import DefectsPage from '@/pages/defects/DefectsPage.vue'
+import LoginPage from '@/pages/login/LoginPage.vue'
+import PlaceholderPage from '@/pages/placeholder/PlaceholderPage.vue'
+import SystemSettingsPage from '@/pages/system-settings/SystemSettingsPage.vue'
+
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    meta: {
+      title: '登录',
+      bare: true,
+      public: true,
+    },
+  },
+  {
+    path: '/',
+    component: AppLayout,
+    children: [
+      {
+        path: '',
+        name: 'dashboard',
+        component: PlaceholderPage,
+        meta: {
+          title: '工作台',
+          description: '保持旧项目克制的占位页风格，后续按模块迁移实际内容。',
+        },
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: SystemSettingsPage,
+        meta: {
+          title: '系统设置',
+          description: '管理 AI 连接、工作空间、成员与用户账号。',
+        },
+      },
+      {
+        path: 'config-center',
+        name: 'config-center',
+        component: ConfigCenterPage,
+        meta: {
+          title: '配置中心',
+          description: '后续保持公共配置边界，迁移环境、参数、数据库连接配置。',
+        },
+      },
+      {
+        path: 'cases',
+        component: CaseCenterPage,
+        meta: {
+          title: '用例中心',
+          description: '后续按目录树、筛选区、表格、抽屉等区域拆分。',
+        },
+        children: [
+          {
+            path: '',
+            redirect: to => ({ path: '/cases/manage', query: to.query, hash: to.hash }),
+          },
+          {
+            path: 'manage',
+            name: 'cases-manage',
+            component: CasesPage,
+            meta: {
+              title: '用例中心',
+              description: '按旧项目方向重建用例管理页。',
+            },
+          },
+          {
+            path: 'manage/execute/:id',
+            name: 'case-execution',
+            component: () => import('@/pages/cases/CaseExecutionPage.vue'),
+            meta: {
+              title: '用例执行',
+              description: '按旧项目执行工作台方向接入用例执行。',
+            },
+          },
+          {
+            path: 'ai-generate',
+            name: 'cases-ai-generate',
+            component: CaseAiGeneratePage,
+            meta: {
+              title: '用例中心',
+              description: 'AI 用例生成页面将按旧项目方向后续补齐。',
+            },
+          },
+          {
+            path: 'ai-records',
+            name: 'cases-ai-records',
+            component: CaseAiRecordsPage,
+            meta: {
+              title: '用例中心',
+              description: 'AI 生成记录页面将按旧项目方向后续补齐。',
+            },
+          },
+          {
+            path: 'ai-records/:taskId',
+            name: 'cases-ai-record-detail',
+            component: () => import('@/pages/cases/CaseAiRecordDetailPage.vue'),
+            meta: {
+              title: '用例中心',
+              description: 'AI 生成记录详情页将按旧项目方向后续补齐。',
+            },
+          },
+          {
+            path: 'ai-config',
+            name: 'cases-ai-config',
+            component: CaseAiConfigPage,
+            meta: {
+              title: '用例中心',
+              description: 'AI 配置页面将按旧项目方向后续补齐。',
+            },
+          },
+        ],
+      },
+      {
+        path: 'cases/:id/execute',
+        redirect: to => ({
+          path: `/cases/manage/execute/${to.params.id}`,
+          query: to.query,
+          hash: to.hash,
+        }),
+      },
+      {
+        path: 'bugs',
+        name: 'bugs',
+        component: DefectsPage,
+        meta: {
+          title: '缺陷管理',
+          description: '按工作空间查看缺陷统计和真实列表，后续继续补齐详情与流转。',
+        },
+      },
+      {
+        path: 'bugs/create',
+        name: 'bug-create',
+        component: () => import('@/pages/defects/DefectEditPage.vue'),
+        meta: {
+          title: '新增缺陷',
+          description: '按页面式编辑体验创建缺陷基础信息。',
+        },
+      },
+      {
+        path: 'bugs/:id/edit',
+        name: 'bug-edit',
+        component: () => import('@/pages/defects/DefectEditPage.vue'),
+        meta: {
+          title: '编辑缺陷',
+          description: '按页面式编辑节奏调整缺陷基础信息。',
+        },
+      },
+      {
+        path: 'bugs/:id',
+        name: 'bug-detail',
+        component: DefectDetailPage,
+        meta: {
+          title: '缺陷详情',
+          description: '通过分享链接直接查看缺陷详情。',
+        },
+      },
+      {
+        path: 'automation/api',
+        name: 'automation-api',
+        component: ApiAutomationPage,
+        meta: {
+          title: '接口自动化',
+          description: '后续先输出拆分方案，再迁移执行工作台，不复制旧大组件。',
+        },
+      },
+      {
+        path: 'automation/web',
+        name: 'automation-web',
+        component: PlaceholderPage,
+        meta: {
+          title: 'Web UI 自动化',
+          description: '旧项目当前为占位模块，后续确认真实业务边界后再接入。',
+        },
+      },
+      {
+        path: 'automation/app',
+        name: 'automation-app',
+        component: PlaceholderPage,
+        meta: {
+          title: 'APP 自动化',
+          description: '旧项目当前为占位模块，后续确认真实业务边界后再接入。',
+        },
+      },
+    ],
+  },
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+router.beforeEach(async (to) => {
+  const isPublicRoute = to.meta.public === true
+
+  if (!sessionState.sessionChecked.value) {
+    await loadCurrentUser()
+  }
+
+  if (to.name === 'login' && sessionState.isAuthenticated.value) {
+    return { path: '/config-center', replace: true }
+  }
+
+  if (!isPublicRoute && !sessionState.isAuthenticated.value) {
+    return {
+      path: '/login',
+      query: to.fullPath === '/' ? undefined : { redirect: to.fullPath },
+      replace: true,
+    }
+  }
+
+  return true
+})

@@ -1,0 +1,351 @@
+<script setup lang="ts">
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import { defectApi, type DefectClientFilter, type DefectStatistics } from '@/entities/defect'
+import {
+  useWorkspaceContext,
+  workspaceApi,
+  type WorkspaceItem,
+  type WorkspaceMemberItem,
+} from '@/entities/workspace'
+import { getRequestErrorMessage } from '@/shared/api/error'
+import AppPage from '@/shared/ui/app-page/AppPage.vue'
+import { DefectFilterPanel } from '@/widgets/defect-filter-panel'
+import { DefectListPanel } from '@/widgets/defect-list-panel'
+import { DefectSummaryPanel } from '@/widgets/defect-summary-panel'
+
+const route = useRoute()
+const router = useRouter()
+const { selectedWorkspaceCode, setSelectedWorkspaceCode } = useWorkspaceContext()
+const workspaceCode = ref('ALL')
+const workspaceSelectorCode = ref('ALL')
+const workspaces = ref<WorkspaceItem[]>([])
+const workspaceMembers = ref<WorkspaceMemberItem[]>([])
+const workspaceLoading = ref(false)
+const workspaceReady = ref(false)
+const workspaceErrorMessage = ref('')
+const statistics = ref<DefectStatistics | null>(null)
+const filter = ref<DefectClientFilter>({
+  keyword: '',
+  status: '',
+  priority: '',
+  severity: '',
+  assigneeId: '',
+  workspaceCode: '',
+})
+const listPanelRef = ref<InstanceType<typeof DefectListPanel> | null>(null)
+
+const workspaceOptions = computed(() => {
+  const options = workspaces.value.map((item) => ({
+    label: item.workspaceName || item.workspaceCode,
+    value: item.workspaceCode,
+  }))
+
+  if (!options.some((item) => item.value === 'ALL')) {
+    options.unshift({ label: '全部空间', value: 'ALL' })
+  }
+
+  return options
+})
+
+const assigneeOptions = computed(() => workspaceMembers.value.map((item) => ({
+  label: item.displayName || item.username || `用户 ${item.userId}`,
+  value: String(item.userId),
+})))
+
+const workspaceFilterOptions = computed(() => workspaces.value
+  .filter((item) => item.workspaceCode !== 'ALL')
+  .map((item) => ({
+    label: item.workspaceName || item.workspaceCode,
+    value: item.workspaceCode,
+  })))
+
+const showWorkspaceFilter = computed(() => workspaceCode.value === 'ALL')
+const businessWorkspaces = computed(() => workspaces.value.filter((item) => (
+  item.workspaceCode
+  && item.workspaceCode !== 'ALL'
+  && !item.allScope
+)))
+
+function resolveDefaultWorkspaceCode(items: WorkspaceItem[]) {
+  const routeWorkspace = Array.isArray(route.query.workspace) ? route.query.workspace[0] : route.query.workspace
+  if (routeWorkspace && (routeWorkspace === 'ALL' || items.some(item => item.workspaceCode === routeWorkspace))) {
+    return routeWorkspace
+  }
+
+  if (
+    selectedWorkspaceCode.value
+    && (selectedWorkspaceCode.value === 'ALL' || items.some(item => item.workspaceCode === selectedWorkspaceCode.value))
+  ) {
+    return selectedWorkspaceCode.value
+  }
+
+  const selected = items.find((item) => item.current || item.isCurrent || item.default || item.isDefault)
+  return selected?.workspaceCode || items[0]?.workspaceCode || 'ALL'
+}
+
+async function loadWorkspaces() {
+  workspaceLoading.value = true
+  workspaceReady.value = false
+  workspaceErrorMessage.value = ''
+  try {
+    const items = await workspaceApi.getSwitchableWorkspaces()
+    workspaces.value = items
+    workspaceCode.value = resolveDefaultWorkspaceCode(items)
+    workspaceSelectorCode.value = workspaceCode.value
+    setSelectedWorkspaceCode(workspaceCode.value)
+  } catch (error) {
+    workspaceCode.value = 'ALL'
+    workspaceSelectorCode.value = 'ALL'
+    workspaceErrorMessage.value = getRequestErrorMessage(error)
+  } finally {
+    workspaceLoading.value = false
+    workspaceReady.value = true
+  }
+}
+
+async function loadStatistics() {
+  try {
+    statistics.value = await defectApi.getDefectStatistics(workspaceCode.value)
+  } catch {
+    statistics.value = null
+  }
+}
+
+async function loadWorkspaceMembers() {
+  if (!workspaceCode.value) {
+    workspaceMembers.value = []
+    filter.value = {
+      ...filter.value,
+      assigneeId: '',
+    }
+    return
+  }
+
+  try {
+    if (workspaceCode.value === 'ALL') {
+      const memberGroups = await Promise.allSettled(
+        businessWorkspaces.value.map((workspace) => workspaceApi.getWorkspaceMembers(workspace.workspaceCode)),
+      )
+      const memberMap = new Map<number, WorkspaceMemberItem>()
+      memberGroups.forEach((group) => {
+        if (group.status !== 'fulfilled') {
+          return
+        }
+        group.value.forEach((member) => {
+          if (!memberMap.has(member.userId)) {
+            memberMap.set(member.userId, member)
+          }
+        })
+      })
+      workspaceMembers.value = Array.from(memberMap.values())
+      return
+    }
+
+    workspaceMembers.value = await workspaceApi.getWorkspaceMembers(workspaceCode.value)
+  } catch {
+    workspaceMembers.value = []
+  }
+}
+
+async function handleWorkspaceChange(value: string) {
+  workspaceCode.value = value
+  workspaceSelectorCode.value = value
+  setSelectedWorkspaceCode(value)
+  filter.value = {
+    ...filter.value,
+    assigneeId: '',
+  }
+  if (route.query.workspace !== value) {
+    await router.replace({
+      path: route.path,
+      query: {
+        ...route.query,
+        workspace: value,
+      },
+      hash: route.hash,
+    })
+  }
+  void loadWorkspaceMembers()
+  void loadStatistics()
+}
+
+function handleCreateDefect() {
+  listPanelRef.value?.openCreateDialog()
+}
+
+function handleStatSelect(status: string) {
+  filter.value = {
+    ...filter.value,
+    status,
+  }
+}
+
+function resetFilters() {
+  filter.value = {
+    keyword: '',
+    status: '',
+    priority: '',
+    severity: '',
+    assigneeId: '',
+    workspaceCode: '',
+  }
+}
+
+onMounted(() => {
+  void (async () => {
+    await loadWorkspaces()
+    await Promise.all([loadWorkspaceMembers(), loadStatistics()])
+  })()
+})
+
+watch(
+  selectedWorkspaceCode,
+  (value) => {
+    if (!workspaceReady.value || !value || value === workspaceCode.value) {
+      return
+    }
+    if (value !== 'ALL' && !workspaces.value.some(item => item.workspaceCode === value)) {
+      return
+    }
+    void handleWorkspaceChange(value)
+  },
+)
+
+watch(
+  () => route.query.workspace,
+  (value) => {
+    const routeWorkspace = Array.isArray(value) ? value[0] : value
+    if (!workspaceReady.value || !routeWorkspace || routeWorkspace === workspaceCode.value) {
+      return
+    }
+    if (routeWorkspace !== 'ALL' && !workspaces.value.some(item => item.workspaceCode === routeWorkspace)) {
+      return
+    }
+    void handleWorkspaceChange(routeWorkspace)
+  },
+)
+</script>
+
+<template>
+  <AppPage
+    title="缺陷管理"
+    description="按工作空间查看缺陷、统计状态和基础筛选；当前阶段先接入真实读取闭环。"
+  >
+    <template #actions>
+      <div class="defects-workspace-select">
+        <span class="defects-workspace-select__label">工作空间</span>
+        <el-select
+          v-model="workspaceSelectorCode"
+          class="defects-workspace-select__control"
+          :disabled="workspaceLoading"
+          :loading="workspaceLoading"
+          size="default"
+          @change="handleWorkspaceChange"
+        >
+          <el-option
+            v-for="item in workspaceOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+        <span v-if="workspaceErrorMessage" class="defects-workspace-select__error">
+          {{ workspaceErrorMessage }}
+        </span>
+      </div>
+    </template>
+
+    <div class="defects-page">
+      <DefectSummaryPanel
+        :statistics="statistics"
+        :active-status="filter.status"
+        @select="handleStatSelect"
+      />
+
+      <section class="defects-page__list-shell">
+        <DefectFilterPanel
+          v-model="filter"
+          :workspace-code="workspaceCode"
+          :workspace-options="workspaceFilterOptions"
+          :assignee-options="assigneeOptions"
+          :show-create-button="workspaceReady"
+          :show-workspace-filter="showWorkspaceFilter"
+          embedded
+          @reset="resetFilters"
+          @create="handleCreateDefect"
+        />
+
+        <DefectListPanel
+          v-if="workspaceReady"
+          ref="listPanelRef"
+          :workspace-code="workspaceCode"
+          :filter="filter"
+          :assignee-options="assigneeOptions"
+          embedded
+        />
+      </section>
+    </div>
+  </AppPage>
+</template>
+
+<style scoped>
+.defects-page {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--app-space-5);
+}
+
+.defects-page__list-shell {
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius-lg);
+  background: var(--app-bg-panel);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.defects-workspace-select {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--app-space-2);
+}
+
+.defects-workspace-select__label {
+  flex: 0 0 auto;
+  color: var(--app-text-secondary);
+  font-size: var(--app-font-size-sm);
+  font-weight: 600;
+}
+
+.defects-workspace-select__control {
+  width: 192px;
+}
+
+.defects-workspace-select__error {
+  max-width: 180px;
+  overflow: hidden;
+  padding: 2px var(--app-space-2);
+  border: 1px solid #fecaca;
+  border-radius: var(--app-radius-sm);
+  background: var(--app-danger-soft);
+  color: var(--app-danger);
+  font-size: var(--app-font-size-xs);
+  line-height: var(--app-line-height-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .defects-workspace-select {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .defects-workspace-select__control {
+    width: min(240px, 100%);
+  }
+}
+</style>

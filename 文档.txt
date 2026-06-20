@@ -1,0 +1,212 @@
+一、整体结论：整体对齐，仅少量细节数值 / 定义存在细微出入，无核心架构冲突
+你这份是通义万相逆向输出标准化规范，基础色、组件分类、布局逻辑和我之前给出的方案完全统一，差异只集中在「尺寸数字、圆角分级命名、阴影强弱、细微间距」，属于微调级区别，不影响落地，我分维度逐条对比标出差异与修正建议。
+二、分模块对比：Token / 组件 / 布局 / 定制方案
+1. 🎨 设计 Token 对比差异
+表格
+分类	我的方案	通义万相输出	差异说明 & 落地建议
+主色	#4080F6	#409EFF	Element Plus 官方原生蓝，更标准，统一采用通义版本 #409EFF
+圆角分级	sm4 / md6 / lg8	sm4 / md8 / lg12	通义把统计卡片单独拉到 12px 大圆角，视觉分层更强，推荐沿用
+阴影	卡片无强阴影，轻量化弱阴影	统一 0 2px 12px rgba(0,0,0,0.06)	通义阴影统一、规范，可直接全平台复用
+统计数字字号	32px	36px	通义更大，视觉突出，推荐使用
+分割线 / 边框两层区分	分开 --border-base /--divider-light	仅两个变量 --border-color / --divider-color	通义分层更清晰，无冲突
+状态 Tag 配色	纯色无边框	浅色底色 + 浅边框	通义 Tag 层次感更好，和 Element 原生 Tag 兼容，优先采用
+间距命名	xs4/sm8/md16/lg24	xs4/sm8/md16/lg24/xl32	通义新增 xl 页面边距 32px，更贴合大屏中台
+无冲突一致项：页面背景 #F5F7FA、卡片纯白、4 类标准状态色、文字三级分级、基础行高完全对齐。
+2. 🧩 核心组件规范 差异点
+（1）统计卡片
+我：高度 120px、圆角 8px
+通义：高度 100px、圆角 12px、内边距 20px 24px
+建议：采用通义参数，卡片更小巧精致，大圆角区分普通卡片，视觉层级明显
+（2）筛选栏
+我：高度 64px
+通义：高度 56px，更紧凑，适合多筛选条件横向摆放，推荐统一 56px
+（3）表格行高
+我：行高 44px
+通义：行高 56px，宽松不拥挤，测试平台大量文本、长摘要更友好，优先使用 56px
+（4）Tab 高度
+我：44px
+通义：48px，字号 15px，文字更舒展，可直接替换
+（5）分页按钮尺寸
+我未细化，通义补充 28px×28px 页码方块，属于完善补充，无冲突
+完全一致组件规则
+按钮高度 36px、Tag 高度 24px、表头背景浅灰、hover 行浅灰、主 / 次按钮配色逻辑完全相同。
+3. 📐 页面布局规范 差异
+页面左右边距：我 24px / 通义 32px（xl 间距）
+大屏后台 32px 留白更美观，统一用通义 32px
+顶部工具栏：我 48px / 通义 56px，和筛选栏高度统一，视觉协调
+最小内容宽度：通义新增 1200px 限制，适配低分辨率不挤压布局，是补充完善项
+导航栏收起宽度 64px：我未提及，通义补充完整侧边栏规范，加分
+4. ⚙️ Element Plus 定制方式
+两者思路完全一致：CSS 变量全局覆盖 + 全局 SCSS 重写组件，无任何分歧，通义写法更贴合 TS 项目 main.ts 导入规范。
+5. 💻 Demo / 补充状态规范
+Demo 逻辑：思路完全相同，都是侧边栏 + 顶部栏 + 卡片表格标准中台布局
+补充状态（弹窗 / 抽屉 / 空 / 加载 / 错误 / 报告）：
+通义补充了弹窗固定宽度 520、抽屉 480、执行报告增加图表时间线，是我的方案里缺少的细化内容，属于完善升级，无出入。
+三、整体总结（关键结论）
+底层视觉逻辑完全匹配，不存在冲突、相悖设计
+两套都是基于 Vue3+Element Plus 轻量化测试中台风格，核心色彩、组件类型、页面三栏架构统一。
+所有出入仅为尺寸、圆角数值、细化补充规则，属于同一套风格下的数值微调，不是设计思路分歧。
+通义逆向这份规范更贴合 AI 生成效果图真实视觉，参数更细化、覆盖更多边界（侧边收起宽度、弹窗固定宽、最小内容宽度、Tag 边框），落地时直接以这份通义输出文档作为唯一标准即可。
+仅一处微小兼容提醒：
+原有全局 SCSS 里圆角变量需要同步修改 --radius-lg:12px、页面边距改为--spacing-xl:32px，其他代码无需大改。
+四、落地统一整合建议（合并最终标准）
+直接采用你这份通义输出文档作为项目统一 UI 规范，只做一处微小兼容调整：
+主色统一 --color-primary: #409EFF
+圆角分级：sm4 /md8 /lg12
+页面左右边距使用 --spacing-xl:32px
+表格行高固定 56px，筛选栏 / 顶部工具栏统一 56px
+Tag 全部启用「浅底色 + 浅边框」样式，区分度更高
+所有新增补充规则（抽屉宽度、弹窗宽度、最小宽度、侧边收起）全部纳入项目规范。
+那你把最新的这些整理好发给我
+自动化测试平台 UI 统一规范（最终定稿・通义万相逆向整合版）
+适配技术栈：Vue3 + Element Plus，全平台统一视觉标准，可直接用于前端样式开发、设计工具导入、AI 绘图参考
+一、🎨 全局设计 Token（CSS 变量，直接写入全局 scss）
+表格
+Token 分类	CSS 变量名	色值 / 数值	说明
+主色体系	--color-primary	#409EFF	Element Plus 标准蓝，按钮、Tab 激活、文字链接、高亮
+页面背景	--bg-page	#F5F7FA	页面最外层整体浅灰底色
+卡片背景	--bg-card	#FFFFFF	统计卡片、表格容器、弹窗、抽屉底色
+通用边框	--border-color	#E4E7ED	输入框、卡片、容器外边框
+表格分割线	--divider-color	#EBEEF5	表格行横向分割线
+状态 - 成功	--color-success	#67C23A	成功标签、成功图标
+状态 - 失败	--color-danger	#F56C6C	失败标签、删除文字 / 按钮
+状态 - 警告	--color-warning	#E6A23C	执行中、阻塞标签
+状态 - 信息	--color-info	#909399	待执行、已取消、辅助文字
+次要文字	--text-regular	#606266	摘要、表单描述、次级文本
+圆角小	--radius-sm	4px	输入框、分页按钮、状态 Tag
+圆角中	--radius-md	8px	表格容器、弹窗、抽屉
+圆角大	--radius-lg	12px	顶部统计卡片专用
+卡片阴影	--shadow-card	0 2px 12px rgba(0,0,0,0.06)	表格卡片、统计卡片基础阴影
+悬浮阴影	--shadow-hover	0 4px 16px rgba(0,0,0,0.1)	卡片 hover 增强阴影
+字号 - 超大数字	--font-size-xxxl	36px	统计卡片数值
+字号 - 标题	--font-size-lg	16px	模块、弹窗标题
+字号 - 正文	--font-size-base	14px	表格、按钮、表单正文
+字号 - 辅助	--font-size-sm	12px	Tag、分页小字、备注
+基础行高	--line-height-base	1.5	全局文本行高
+间距 - xs	--spacing-xs	4px	图标与文字间隙
+间距 - sm	--spacing-sm	8px	Tag 内边、小组件间距
+间距 - md	--spacing-md	16px	卡片内边、组件横向间隔
+间距 - lg	--spacing-lg	24px	模块上下间距
+间距 - xl	--spacing-xl	32px	页面左右留白边距
+二、🧩 核心组件视觉规范
+1. 统计卡片
+表格
+属性	参数
+布局	4 列等分弹性布局，flex:1
+固定高度	100px
+内边距	20px 24px
+圆角	var(--radius-lg) 12px
+阴影	var(--shadow-card)
+主数字	字号 36px，字重 700
+分类文字	14px，#909399
+英文小字	12px，#C0C4CC
+卡片之间间距	var(--spacing-md) 16px
+2. 筛选工具栏
+表格
+属性	参数
+固定高度	56px
+内部内边距	12px 16px
+搜索框宽度	240px
+下拉框标准宽度	160px
+组件横向间距	var(--spacing-md) 16px
+背景色	var(--bg-card) #FFFFFF
+3. 按钮统一规范
+表格
+类型	样式参数
+基础尺寸	高度 36px，左右内边距 0 20px，字号 14px，圆角 4px
+主按钮（查询 / 新建）	背景 --color-primary，白色文字
+次按钮（重置 / 关闭）	白底，边框 --border-color，文字 --text-regular
+文字按钮（表格操作列）	无边无背景，文字跟随状态色，删除用 --color-danger
+4. Tab 标签页
+表格
+属性	参数
+高度	48px
+文字字号	15px
+激活态	文字 --color-primary，底部 2px 蓝色指示线
+未激活	文字 --text-regular #606266
+Tab 项横向间距	var(--spacing-xl) 32px
+5. 数据表格 el-table
+表格
+属性	参数
+表头行高	48px
+数据行高	56px
+表头背景	#FAFAFA，字号 14px，字重 600
+行默认背景	var(--bg-card) #FFFFFF
+行 hover 背景	--bg-page #F5F7FA
+分割边框	1px solid var(--divider-color)
+单元格内边距	12px 16px
+外层容器圆角	var(--radius-md) 8px
+外层容器阴影	var(--shadow-card)
+6. 状态标签 el-tag
+统一尺寸：高度 24px，左右内边距 0 10px，字号 12px，圆角 4px
+表格
+状态	背景色	文字色	边框色
+成功	#F0F9EB	--color-success	#E1F3D8
+失败	#FEF0F0	--color-danger	#FDE2E2
+执行中	#FDF6EC	--color-warning	#FAECD8
+待执行	#F4F4F5	--color-info	#E9E9EB
+7. 分页组件
+表格
+属性	参数
+高度	48px
+字号	14px
+对齐方式	表格右下角右对齐
+页码按钮尺寸	28px × 28px
+当前激活页	背景 --color-primary，白色文字
+三、📐 全局页面布局规范
+表格
+布局项	参数值
+左侧侧边栏（展开）	220px
+左侧侧边栏（收起）	64px
+页面左右内容边距	var(--spacing-xl) 32px
+页面上下内容边距	var(--spacing-lg) 24px
+顶部全局工具栏高度	56px
+统计卡片区域上下外边距	24px
+筛选栏 ↔ 表格垂直间距	var(--spacing-md) 16px
+各模块垂直间距	var(--spacing-lg) 24px
+表格容器圆角	var(--radius-md) 8px
+页面最小可视宽度	1200px（小于自动横向滚动）
+四、⚙️ Element Plus 全局定制方案
+1. 改造思路
+两层覆盖：1. CSS 原生变量全局覆盖 2. 全局统一 SCSS 重写组件细节
+2. 引入顺序 main.ts
+typescript
+运行
+import { createApp } from 'vue'
+import App from './App.vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+// 1. 覆盖Element基础变量
+import '@/assets/styles/element-vars.scss'
+// 2. 全局组件样式重写
+import '@/assets/styles/element-override.scss'
+
+const app = createApp(App)
+app.use(ElementPlus)
+app.mount('#app')
+
+3. element-vars.scss 核心变量片段
+scss
+:root {
+  --el-color-primary: #409EFF;
+  --el-border-radius-base: var(--radius-sm);
+  --el-card-border-radius: var(--radius-md);
+  --el-font-size-base: var(--font-size-base);
+  --el-table-header-bg-color: #FAFAFA;
+}
+
+五、📸 各类页面状态规范（配套弹窗 / 空态 / 报告页）
+弹窗 Dialog
+宽度固定 520px，圆角 8px；标题字号 16px 加粗；底部按钮右对齐，主按钮靠右
+右侧抽屉 Drawer
+固定宽度 480px，右滑弹出；标题栏高度 56px，左上角关闭图标
+表格空状态
+居中放置 120×120 浅灰色无数据插画；提示文字 #909399；底部可放新建按钮
+加载状态
+表格容器全覆盖 v-loading，遮罩 rgba (255,255,255,0.8)，内置旋转加载图标
+错误状态
+使用 el-result 错误模板，红色警告图标，下方显示重试按钮
+执行报告页面
+与任务列表共用 Tab；页面包含统计卡片、时间线组件、通过率饼图、失败用例详情表格
+六、💻 基础 Demo 运行前置
+ai随便写的demo路径：D:\demo\auto-test-platform-demo\auto-test-platform-demo
