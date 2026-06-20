@@ -92,22 +92,21 @@ function handleSelect(status: string) {
   overflow: hidden;
   padding: 18px 20px;
   border: 1px solid var(--app-border-soft);
-  border-left: 4px solid var(--app-primary);
   border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
   box-shadow: none;
   cursor: pointer;
-  transition: box-shadow 160ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease;
 }
 
 .defect-summary-panel__card:hover {
-  box-shadow: var(--app-shadow-card);
+  border-color: var(--app-border);
+  background: #fff;
 }
 
 .defect-summary-panel__card--active {
   border-color: #bfdbfe;
-  border-left-color: var(--app-primary);
-  background: #ffffff;
+  background: var(--app-primary-soft);
   box-shadow: 0 0 0 1px rgba(64, 158, 255, 0.08);
 }
 
@@ -138,6 +137,7 @@ function handleSelect(status: string) {
   z-index: 1;
   color: var(--app-text-primary);
   font-size: 28px;
+  font-weight: 600;
   line-height: 32px;
 }
 
@@ -150,32 +150,16 @@ function handleSelect(status: string) {
   line-height: 18px;
 }
 
-.defect-summary-panel__card--primary {
-  border-left-color: var(--app-primary);
-}
-
 .defect-summary-panel__card--primary strong {
   color: var(--app-primary);
-}
-
-.defect-summary-panel__card--assigned {
-  border-left-color: var(--app-purple);
 }
 
 .defect-summary-panel__card--assigned strong {
   color: var(--app-purple);
 }
 
-.defect-summary-panel__card--processing {
-  border-left-color: var(--app-success);
-}
-
 .defect-summary-panel__card--processing strong {
   color: var(--app-success);
-}
-
-.defect-summary-panel__card--verify {
-  border-left-color: var(--app-warning);
 }
 
 .defect-summary-panel__card--verify strong {

@@ -40,10 +40,10 @@ const emit = defineEmits<{
   align-items: center;
   gap: var(--app-space-2);
   padding: var(--app-space-3);
-  border: 1px solid var(--app-border);
-  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
-  box-shadow: var(--app-shadow-card);
+  box-shadow: none;
 }
 
 .automation-task-filter-panel__keyword {

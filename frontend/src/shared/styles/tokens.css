@@ -2,7 +2,7 @@
   --app-font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
 
   --color-primary: #409eff;
-  --bg-page: #f5f7fa;
+  --bg-page: #f4f6f9;
   --bg-card: #ffffff;
   --border-color: #e4e7ed;
   --divider-color: #ebeef5;
@@ -14,8 +14,8 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.018);
-  --shadow-hover: 0 2px 8px rgba(15, 23, 42, 0.035);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.012);
+  --shadow-hover: 0 1px 6px rgba(15, 23, 42, 0.026);
   --font-size-xxxl: 36px;
   --font-size-lg: 16px;
   --font-size-base: 14px;
@@ -43,12 +43,12 @@
 
   --app-bg-page: var(--bg-page);
   --app-bg-panel: #ffffff;
-  --app-bg-muted: #fafafa;
-  --app-bg-subtle: #f9fafb;
+  --app-bg-muted: #f7f8fa;
+  --app-bg-subtle: #f8fafc;
   --app-bg-workspace: #ffffff;
 
   --app-border: var(--border-color);
-  --app-border-soft: var(--divider-color);
+  --app-border-soft: #edf0f5;
   --app-border-strong: #dcdfe6;
 
   --app-text-primary: #303133;

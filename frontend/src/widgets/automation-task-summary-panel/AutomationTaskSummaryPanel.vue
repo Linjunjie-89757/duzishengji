@@ -48,7 +48,6 @@ const stats = computed<AutomationTaskStat[]>(() => {
   min-width: 0;
   padding: var(--app-space-4);
   border: 1px solid var(--app-border-soft);
-  border-left: 4px solid var(--app-primary);
   border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
   box-shadow: none;
@@ -64,7 +63,7 @@ const stats = computed<AutomationTaskStat[]>(() => {
   display: block;
   margin-top: var(--app-space-2);
   color: var(--app-text-primary);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 600;
   line-height: 1;
 }
@@ -77,24 +76,12 @@ const stats = computed<AutomationTaskStat[]>(() => {
   color: var(--app-success);
 }
 
-.automation-task-summary-panel__item.is-success {
-  border-left-color: var(--app-success);
-}
-
 .automation-task-summary-panel__item.is-warning strong {
   color: var(--app-warning);
 }
 
-.automation-task-summary-panel__item.is-warning {
-  border-left-color: var(--app-warning);
-}
-
 .automation-task-summary-panel__item.is-danger strong {
   color: var(--app-danger);
-}
-
-.automation-task-summary-panel__item.is-danger {
-  border-left-color: var(--app-danger);
 }
 
 @media (max-width: 980px) {

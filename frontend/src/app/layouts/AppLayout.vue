@@ -569,7 +569,7 @@ onMounted(() => {
   gap: var(--app-space-4);
   height: var(--app-toolbar-height);
   padding: 0 var(--app-space-5);
-  border-bottom: 1px solid var(--app-border);
+  border-bottom: 1px solid var(--app-border-soft);
   background: var(--app-bg-panel);
   box-shadow: none;
 }
@@ -772,7 +772,8 @@ onMounted(() => {
 
 .app-layout__main {
   min-height: calc(100dvh - var(--app-toolbar-height));
-  padding: var(--app-space-4);
+  padding: 18px 20px 20px;
+  background: var(--app-bg-page);
 }
 
 @media (max-width: 1024px) {

@@ -6794,6 +6794,8 @@ onBeforeUnmount(() => {
   overflow-y: auto;
   border-right: 1px solid var(--app-border-soft);
   border-left: 1px solid var(--app-border-soft);
+  border-bottom: 1px solid var(--app-border-soft);
+  border-radius: 0 0 var(--app-radius-sm) var(--app-radius-sm);
   background: #fff;
 }
 
@@ -10123,7 +10125,7 @@ onBeforeUnmount(() => {
   min-height: 360px;
   flex: 0 0 auto;
   flex-direction: column;
-  margin-top: 12px;
+  margin-top: 0;
   border: 1px solid var(--app-border-soft);
   border-radius: var(--app-radius-sm);
   background: #fff;

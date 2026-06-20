@@ -98,7 +98,7 @@
 
 .el-table th.el-table__cell {
   height: var(--app-table-header-height);
-  background: #fafafa;
+  background: var(--app-bg-muted);
   color: var(--app-text-secondary);
   font-weight: 500;
 }

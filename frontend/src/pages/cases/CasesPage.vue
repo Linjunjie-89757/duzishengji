@@ -732,10 +732,10 @@ watch(
 
 .cases-page__workbench {
   overflow: hidden;
-  border: 1px solid var(--app-border);
-  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
-  box-shadow: var(--app-shadow-card);
+  box-shadow: none;
 }
 
 .cases-page__toolbar {

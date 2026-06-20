@@ -19,6 +19,7 @@ defineProps<{
   display: flex;
   min-width: 0;
   flex-direction: column;
+  gap: var(--app-space-4);
 }
 
 .app-page--fill {
@@ -29,7 +30,7 @@ defineProps<{
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: var(--app-space-6);
+  gap: var(--app-space-4);
 }
 
 .app-page--fill .app-page__content {

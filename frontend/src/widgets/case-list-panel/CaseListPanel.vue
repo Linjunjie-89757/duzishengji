@@ -1246,7 +1246,7 @@ defineExpose({
 .case-list-panel__grid--header {
   min-height: var(--case-table-header-height);
   border-bottom: 1px solid var(--app-border-soft);
-  background: #fafafa;
+  background: var(--app-bg-muted);
   color: var(--app-text-muted);
   font-size: 12px;
   font-weight: 600;
@@ -1316,7 +1316,7 @@ defineExpose({
   gap: var(--app-space-1);
   min-height: var(--case-table-header-height);
   border-bottom: 1px solid var(--app-border-soft);
-  background: #fafafa;
+  background: var(--app-bg-muted);
   color: var(--app-text-muted);
   font-size: 12px;
   font-weight: 600;

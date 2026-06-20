@@ -25,15 +25,15 @@ defineProps<{
   overflow: hidden;
   padding: 18px 20px;
   border: 1px solid var(--app-border-soft);
-  border-left: 4px solid var(--app-primary);
   border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
   box-shadow: none;
-  transition: box-shadow 160ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease;
 }
 
 .config-stat-card:hover {
-  box-shadow: var(--app-shadow-card);
+  border-color: var(--app-border);
+  background: #fff;
 }
 
 .config-stat-card__head {
@@ -53,29 +53,9 @@ defineProps<{
   position: relative;
   z-index: 1;
   color: var(--app-primary);
-  font-size: var(--font-size-xxxl);
-  font-weight: 700;
-  line-height: 40px;
-}
-
-.config-stat-card--primary {
-  border-left-color: var(--app-primary);
-}
-
-.config-stat-card--success {
-  border-left-color: var(--app-success);
-}
-
-.config-stat-card--warning {
-  border-left-color: var(--app-warning);
-}
-
-.config-stat-card--danger {
-  border-left-color: var(--app-danger);
-}
-
-.config-stat-card--purple {
-  border-left-color: var(--app-purple);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 36px;
 }
 
 .config-stat-card--success strong {

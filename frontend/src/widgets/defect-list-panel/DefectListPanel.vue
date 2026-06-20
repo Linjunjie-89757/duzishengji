@@ -693,7 +693,7 @@ defineExpose({
   color: var(--app-text-muted);
   font-size: 12px;
   font-weight: 600;
-  background: #fafafa;
+  background: var(--app-bg-muted);
 }
 
 .defect-list-panel__grid--row {
@@ -803,7 +803,7 @@ defineExpose({
   color: var(--app-text-muted);
   font-size: 12px;
   font-weight: 600;
-  background: #fafafa;
+  background: var(--app-bg-muted);
   white-space: nowrap;
 }
 
