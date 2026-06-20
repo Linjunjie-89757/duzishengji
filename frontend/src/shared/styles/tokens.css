@@ -85,8 +85,8 @@
 
   --app-control-height-sm: 28px;
   --app-control-height-md: 36px;
-  --app-table-header-height: 48px;
-  --app-table-row-height: 56px;
+  --app-table-header-height: 44px;
+  --app-table-row-height: 48px;
   --app-toolbar-height: 56px;
   --app-dialog-header-height: 56px;
   --app-dialog-width: 520px;
@@ -100,13 +100,13 @@
   --app-shadow-overlay: 0 16px 42px rgba(15, 23, 42, 0.12);
   --app-shadow-strong: 0 1px 3px rgba(15, 23, 42, 0.026);
   --app-shadow-brand: 1px 0 0 rgba(15, 23, 42, 0.08);
-  --app-sidebar-bg: #304156;
-  --app-sidebar-bg-soft: #263445;
+  --app-sidebar-bg: #232935;
+  --app-sidebar-bg-soft: #1f2632;
   --app-sidebar-border: rgba(255, 255, 255, 0.08);
   --app-sidebar-text: #bfcbd9;
   --app-sidebar-text-muted: #8fa1b6;
   --app-sidebar-active: #409eff;
-  --app-sidebar-active-soft: rgba(64, 158, 255, 0.14);
+  --app-sidebar-active-soft: rgba(64, 158, 255, 0.08);
 
   --app-color-bg: var(--app-bg-page);
   --app-color-surface: var(--app-bg-panel);

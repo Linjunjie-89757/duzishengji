@@ -27,6 +27,7 @@
   font-size: var(--app-font-size-md);
   font-weight: 500;
   box-shadow: none;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .el-button:not(.el-button--primary, .el-button--success, .el-button--warning, .el-button--danger) {
@@ -107,8 +108,12 @@
 }
 
 .el-table .cell {
-  padding: 0 16px;
+  padding: 0 14px;
   line-height: 20px;
+}
+
+.el-table--small .cell {
+  padding: 0 12px;
 }
 
 .el-card {
@@ -116,6 +121,7 @@
   border-radius: var(--app-radius-sm);
   background: var(--app-bg-panel);
   box-shadow: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .el-card__body {

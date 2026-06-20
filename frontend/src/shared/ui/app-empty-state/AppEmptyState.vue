@@ -34,9 +34,9 @@ withDefaults(
   justify-content: center;
   min-height: 204px;
   padding: var(--app-space-6);
-  border: 1px dashed var(--app-border);
-  border-radius: var(--app-radius-md);
-  background: var(--app-bg-subtle);
+  border: 0;
+  border-radius: var(--app-radius-sm);
+  background: #fafafa;
   text-align: center;
 }
 
@@ -44,12 +44,13 @@ withDefaults(
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--app-radius-md);
-  background: var(--app-bg-muted);
+  width: 56px;
+  height: 56px;
+  border-radius: 0;
+  background: transparent;
   color: var(--app-text-muted);
-  font-size: 22px;
+  font-size: 56px;
+  opacity: 0.54;
 }
 
 .app-empty-state__title {

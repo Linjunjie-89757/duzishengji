@@ -514,7 +514,7 @@ onMounted(() => {
 
 .app-layout__nav-item.is-active {
   background: var(--app-sidebar-active-soft);
-  color: var(--app-text-inverse);
+  color: var(--app-sidebar-active);
   font-weight: 500;
 }
 
@@ -550,7 +550,7 @@ onMounted(() => {
 
 .app-layout__nav-child.is-active {
   background: var(--app-sidebar-active-soft);
-  color: var(--app-text-inverse);
+  color: var(--app-sidebar-active);
 }
 
 .app-layout__body {
@@ -705,10 +705,10 @@ onMounted(() => {
   gap: var(--app-space-2);
   max-width: 260px;
   min-height: 36px;
-  padding: 0 var(--app-space-3);
-  border: 1px solid var(--app-border-soft);
+  padding: 0;
+  border: 0;
   border-radius: var(--app-radius-sm);
-  background: var(--app-bg-panel);
+  background: transparent;
   color: var(--app-text-primary);
   cursor: pointer;
   transition: border-color 160ms ease, background-color 160ms ease;
@@ -720,8 +720,8 @@ onMounted(() => {
 }
 
 .app-layout__user:hover {
-  border-color: var(--app-primary);
-  background: var(--app-bg-muted);
+  border-color: transparent;
+  background: transparent;
 }
 
 .app-layout__user-avatar {
@@ -732,7 +732,7 @@ onMounted(() => {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--app-primary);
+  background: #d1d5db;
   color: var(--app-text-inverse);
   font-size: var(--app-font-size-sm);
   font-weight: 700;

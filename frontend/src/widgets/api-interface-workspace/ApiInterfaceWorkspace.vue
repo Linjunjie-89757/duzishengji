@@ -5878,9 +5878,9 @@ onBeforeUnmount(() => {
   min-height: 560px;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--app-border-soft);
-  border-radius: var(--app-radius-sm);
-  background: var(--app-bg-panel);
+  border: 0;
+  border-radius: 0;
+  background: var(--app-bg-page);
   box-shadow: none;
   width: 100%;
   font-family: var(--api-workspace-font-family);
@@ -5891,6 +5891,32 @@ onBeforeUnmount(() => {
 .api-interface-workspace textarea,
 .api-interface-workspace select {
   font-family: inherit;
+}
+
+.api-interface-workspace * {
+  scrollbar-width: thin;
+  scrollbar-color: #d9dee7 transparent;
+}
+
+.api-interface-workspace *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.api-interface-workspace *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.api-interface-workspace *::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #d9dee7;
+  background-clip: content-box;
+}
+
+.api-interface-workspace *::-webkit-scrollbar-thumb:hover {
+  background: #cbd3df;
+  background-clip: content-box;
 }
 
 .api-interface-workspace :deep(.el-button),
@@ -5951,9 +5977,9 @@ onBeforeUnmount(() => {
   min-height: 44px;
   align-items: center;
   padding: 0 16px;
-  border-bottom: 1px solid var(--app-border-soft);
-  border-radius: var(--app-radius-sm) var(--app-radius-sm) 0 0;
-  background: var(--app-bg-panel);
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-sm);
+  background: #fff;
 }
 
 .api-interface-tab-nav {
@@ -5998,15 +6024,20 @@ onBeforeUnmount(() => {
   display: grid;
   min-height: 0;
   flex: 1;
+  gap: 12px;
   grid-template-columns: 272px minmax(0, 1fr);
+  padding-top: 12px;
+  background: var(--app-bg-page);
 }
 
 .api-interface-sidebar {
   display: flex;
   min-height: 0;
   flex-direction: column;
-  border-right: 1px solid var(--app-border-soft);
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-sm);
   background: #fff;
+  overflow: hidden;
 }
 
 .api-interface-sidebar__actions {
@@ -6304,15 +6335,15 @@ onBeforeUnmount(() => {
 .api-directory-node__icon {
   width: 16px;
   height: 16px;
-  color: #60a5fa;
+  color: #8fa1b6;
 }
 
 .api-directory-node__folder.is-open .api-directory-node__icon {
-  color: #3b82f6;
+  color: #6f8196;
 }
 
 .api-directory-node__count {
-  color: var(--app-text-subtle);
+  color: #b8c2cf;
   font-size: var(--app-font-size-xs);
   line-height: 16px;
 }
@@ -6327,20 +6358,21 @@ onBeforeUnmount(() => {
   line-height: 18px;
 }
 
-.method-get { color: #15803d; }
-.method-post { color: #ea580c; }
+.method-get { color: #0f8a3a; }
+.method-post { color: #d85f13; }
 .method-put { color: #2563eb; }
-.method-patch { color: #7c3aed; }
-.method-delete { color: #dc2626; }
+.method-patch { color: #6f5ab7; }
+.method-delete { color: #c73535; }
 .method-head,
-.method-options { color: #64748b; }
+.method-options { color: #7b8492; }
 
 .api-interface-main {
   display: flex;
   min-width: 0;
   min-height: 0;
   flex-direction: column;
-  background: #fff;
+  gap: 12px;
+  background: var(--app-bg-page);
 }
 
 .api-editor-tabs {
@@ -6349,7 +6381,9 @@ onBeforeUnmount(() => {
   height: 40px;
   min-height: 40px;
   align-items: center;
-  border-bottom: 1px solid var(--app-border-soft);
+  border: 1px solid var(--app-border-soft);
+  border-bottom: 0;
+  border-radius: var(--app-radius-sm) var(--app-radius-sm) 0 0;
   background: #fff;
   overflow: hidden;
 }
@@ -6473,6 +6507,8 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
+  border-right: 1px solid var(--app-border-soft);
+  border-left: 1px solid var(--app-border-soft);
   border-bottom: 1px solid var(--app-border-soft);
   background: #fff;
 }
@@ -6756,6 +6792,8 @@ onBeforeUnmount(() => {
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
+  border-right: 1px solid var(--app-border-soft);
+  border-left: 1px solid var(--app-border-soft);
   background: #fff;
 }
 
@@ -10085,9 +10123,11 @@ onBeforeUnmount(() => {
   min-height: 360px;
   flex: 0 0 auto;
   flex-direction: column;
-  border-top: 1px solid var(--app-border-soft);
+  margin-top: 12px;
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-sm);
   background: #fff;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .api-response-resizer {
@@ -10216,7 +10256,7 @@ onBeforeUnmount(() => {
   flex: 1;
   flex-direction: column;
   overflow: hidden;
-  background: #fff;
+  background: #fafafa;
 }
 
 .api-response-empty {
